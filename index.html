@@ -1,0 +1,220 @@
+﻿<!DOCTYPE HTML>
+<html>
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<title>Calculator</title>
+<script type="text/javascript">
+var Display="", First="", Second="", Sign="";
+
+function Init()
+{
+	CE();
+}
+
+function CE()
+{
+	First = "";
+	Second = "";
+	Sign = "";
+	Display = "";
+	document.getElementById('display').innerHTML = '0';
+}
+
+function NumClick(key)
+	{ 
+	if(Sign == ""){ 
+		First = First + key;
+		document.getElementById('display').innerHTML = First;
+		}
+	else{
+		Second = Second + key;
+		Display = document.getElementById('display').innerHTML;
+		document.getElementById('display').innerHTML = First + ' ' + Sign + ' ' + Second;
+		}
+	}
+
+function SignClick(symbol)
+	{
+    if (First != "" && Second != "") Evaluate();
+    Sign = symbol;
+    Display = document.getElementById('display').innerHTML;
+    lastChar = Display.charAt(Display.length - 2);
+    if (lastChar == "+" || lastChar == "-" || lastChar == "*" || lastChar == "/") {
+        Display = Display.substring(0, Display.length - 3);
+    }
+    
+	document.getElementById('display').innerHTML = Display + ' ' + Sign + ' ';
+}
+
+function PlusMinus()
+	{
+	if(Second != "")
+		{
+		Second = eval(Second * -1).toString();
+		Display = document.getElementById('display').innerHTML;
+		document.getElementById('display').innerHTML = First + ' ' + Sign + ' ' + Second;
+		}
+	else if(First != ""){ 
+		First = eval(First * -1).toString();
+		document.getElementById('display').innerHTML = First;
+		}
+	}
+
+function Percent()
+	{
+	if(First != "" && Second != "")
+		{
+			Second = eval(Second/100 * First)
+			Display = document.getElementById('display').innerHTML;
+			document.getElementById('display').innerHTML = First + ' ' + Sign + ' ' + Second;
+		}
+	}
+	
+function Decimal()
+	{
+	if(Sign != "" && Second.indexOf(".") == -1)
+		{
+			Second = Second + '.';
+			Display = document.getElementById('display').innerHTML;
+			document.getElementById('display').innerHTML = First + ' ' + Sign + ' ' + Second;
+		}
+	else if(First.indexOf(".") == -1)
+		{
+			First = First + '.';
+			document.getElementById('display').innerHTML = First;		
+		}
+	}
+
+function Evaluate()
+{ 	
+	var string;
+
+	if(First != "" && Second != "" && Sign != "")
+  	{
+	    string = First + ' ' + Sign + ' ' + Second;
+		Overall = eval(string).toString();
+		document.getElementById('display').innerHTML = Overall;
+		First = Overall;
+		Second = "";
+		Sign = "";
+	}
+ }
+
+
+</script>
+<style type="text/css">
+html {
+	padding: 0;
+	margin: 0;
+	min-width:400px;
+	min-height:400px;
+}
+.body {
+	position: relative;
+	width: 270px;
+	height: 320px;
+	left: 40%;
+	top: 25px;
+	border:medium solid black;
+	border-radius: 10px;
+	background: -webkit-linear-gradient(left, grey , black); /* For Safari 5.1 to 6.0 */
+  	background: -o-linear-gradient(right, grey , black); /* For Opera 11.1 to 12.0 */
+  	background: -moz-linear-gradient(right, grey , black); /* For Firefox 3.6 to 15 */
+  	background: linear-gradient(to right, grey , black); /* Standard syntax */
+}
+.calc-display {
+	position:relative;
+	background:gray;
+	width: 250px;
+	height: 40px;
+	top:0;
+	margin: 20px 10px 0 10px;
+	border:thin black solid;
+	background: -webkit-linear-gradient(white, gray); /* For Safari 5.1 to 6.0 */
+  	background: -o-linear-gradient(white, gray); /* For Opera 11.1 to 12.0 */
+  	background: -moz-linear-gradient(white, gray); /* For Firefox 3.6 to 15 */
+  	background: linear-gradient(white, gray); /* Standard syntax */
+	
+}
+table {
+ margin: 0 30px 10px 30px;
+}
+td {
+	padding:0;
+	margin:0;
+	text-align:center;
+}
+input {
+	background: #A0A0A0;
+	width:50px;
+	height:40px;
+	color:white;
+	font-weight:bold;
+	font-size:20px;
+	border-radius:1px;
+}
+#display {
+    padding: 5px;
+    font-size: 16px;
+    width: 250px;
+    height: 35px;
+    display: block;
+    font-weight: bold;
+    overflow: hidden;
+}
+</style>
+</head>
+
+<body>
+<nav>
+	<a href="/">Home</a> |
+	<a href="/calculator.html">Calculator</a> |
+	<a href="/registrationForm.html">Registration Form</a> |
+	<a href="/feedbackForm.html">Feedback Form</a> |
+	<a href="/FAQ.html">FAQ</a>	
+</nav>
+<h1 style="text-align:center">JavaScript Calculator</h1>
+<div id="container">
+<div class="calc body"> 
+<div class="calc-display">
+<span id="display"></span>
+</div>
+<br/>
+<table>
+	<tr>
+		<td><input type="button" name="clear"   value="CE" onclick="CE()"/></td>
+		<td><input type="button" name="plusmn"   value="&plusmn;" onclick="PlusMinus()"/></td>
+		<td><input type="button" name="percent"   value="%" onclick="Percent()"/></td>
+	</tr>
+	<tr>
+		<td><input type="button" name="seven"   value="7" onclick="NumClick(7)"/></td>
+		<td><input type="button" name="eight"   value="8" onclick="NumClick(8)"/></td>
+		<td><input type="button" name="nine"    value="9" onclick="NumClick(9)"/></td>
+		<td><input type="button" name="divide"  value="&divide;" onclick="SignClick('/')"/></td>
+	</tr>
+	<tr>
+		<td><input type="button" name="four"   value="4" onclick="NumClick(4)"/></td>
+		<td><input type="button" name="five"   value="5" onclick="NumClick(5)"/></td>
+		<td><input type="button" name="six"   value="6" onclick="NumClick(6)"/></td>
+		<td><input type="button" name="multiply"   value="&lowast;" onclick="SignClick('*')"/></td>
+	</tr>
+	<tr>
+		<td><input type="button" name="one"   value="1" onclick="NumClick(1)"/></td>
+		<td><input type="button" name="two"   value="2" onclick="NumClick(2)"/></td>
+		<td><input type="button" name="three"   value="3" onclick="NumClick(3)"/></td>
+		<td><input type="button" name="minus"   value="&minus;" onclick="SignClick('-')"/></td>
+	</tr>
+	<tr>
+		<td><input type="button" name="zero"   value="0" onclick="NumClick(0)"/></td>
+		<td><input type="button" name="decimal"   value="." onclick="Decimal()"/></td>
+		<td><input type="button" name="equals"   value="=" onclick="Evaluate()"/></td>
+		<td><input type="button" name="add"   value="+" onclick="SignClick('+')"/></td>
+	</tr>
+</table>
+</div>
+</div>
+</body>
+
+</html>
